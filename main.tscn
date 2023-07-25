@@ -1,0 +1,90 @@
+[gd_scene load_steps=9 format=3 uid="uid://lga65iwp5u0t"]
+
+[ext_resource type="Shader" path="res://interactive_rects.gdshader" id="1_64qb2"]
+[ext_resource type="Script" path="res://interactive_rects_mesh.gd" id="2_k4sel"]
+[ext_resource type="Texture2D" uid="uid://dseirusvqv47x" path="res://icon.svg" id="3_yomgr"]
+
+[sub_resource type="Image" id="Image_nsyc6"]
+data = {
+"data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+"format": "RGB8",
+"height": 7,
+"mipmaps": false,
+"width": 5
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_cixjq"]
+image = SubResource("Image_nsyc6")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2intb"]
+shader = ExtResource("1_64qb2")
+shader_parameter/pixel_size = Vector2(0.00166667, 0.00125)
+shader_parameter/mouse_location = Vector2(2.16634, 1.41184)
+shader_parameter/rects = Vector2i(5, 7)
+shader_parameter/rect_size = Vector2(0.133333, 0.1)
+shader_parameter/rect_interval = Vector2(0.0333333, 0.025)
+shader_parameter/offset = Vector2(0.0833333, 0.0625)
+shader_parameter/rotation_info = SubResource("ImageTexture_cixjq")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_6rg03"]
+size = Vector2(600, 800)
+center_offset = Vector3(300, 400, 0)
+orientation = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_4xppr"]
+font_size = 48
+font_color = Color(0, 0, 0, 1)
+outline_size = 12
+
+[node name="Main" type="Node"]
+
+[node name="InteractiveRectsMesh" type="MeshInstance2D" parent="."]
+material = SubResource("ShaderMaterial_2intb")
+mesh = SubResource("PlaneMesh_6rg03")
+script = ExtResource("2_k4sel")
+
+[node name="Cursor" type="Sprite2D" parent="InteractiveRectsMesh"]
+visible = false
+position = Vector2(1299.8, -329.47)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("3_yomgr")
+
+[node name="CurrentRect" type="Sprite2D" parent="InteractiveRectsMesh"]
+visible = false
+position = Vector2(500, 400)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_yomgr")
+
+[node name="Label" type="Label" parent="InteractiveRectsMesh/CurrentRect"]
+offset_left = -50.0
+offset_top = -32.0
+offset_right = 47.0
+offset_bottom = 38.0
+text = "(4, 3)"
+label_settings = SubResource("LabelSettings_4xppr")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Line2D" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(50, 0, 50, 800)
+width = 5.0
+default_color = Color(1, 1, 1, 0.262745)
+
+[node name="Line2D3" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(0, 50, 600, 50)
+width = 5.0
+default_color = Color(1, 1, 1, 0.262745)
+
+[node name="Line2D4" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(0, 750, 600, 750)
+width = 5.0
+default_color = Color(1, 1, 1, 0.262745)
+
+[node name="Line2D2" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(550, 0, 550, 800)
+width = 5.0
+default_color = Color(1, 1, 1, 0.262745)

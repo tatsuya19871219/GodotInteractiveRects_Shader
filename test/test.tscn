@@ -1,0 +1,93 @@
+[gd_scene load_steps=19 format=3 uid="uid://bh0awckdv4yuu"]
+
+[ext_resource type="Shader" path="res://test/single_rect.gdshader" id="1_e0bra"]
+[ext_resource type="Shader" path="res://test/single_rect_rotating_test.gdshader" id="1_k7fb5"]
+[ext_resource type="Texture2D" uid="uid://dseirusvqv47x" path="res://icon.svg" id="2_x7rwy"]
+[ext_resource type="Shader" path="res://test/mouse_location_test.gdshader" id="3_tqdct"]
+[ext_resource type="Script" path="res://test/mouse_location_test.gd" id="4_f5jhg"]
+[ext_resource type="Script" path="res://test/rotating_rect_test.gd" id="4_synnf"]
+[ext_resource type="Shader" path="res://test/multiple_rects.gdshader" id="5_xxg37"]
+[ext_resource type="Shader" path="res://test/rects_with_parameters.gdshader" id="8_pkf5n"]
+[ext_resource type="Shader" path="res://test/rects_and_sampler_test.gdshader" id="9_4spyw"]
+[ext_resource type="Script" path="res://test/rects_and_sampler_test.gd" id="10_fpdhq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_be37t"]
+shader = ExtResource("1_e0bra")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pv0q1"]
+shader = ExtResource("1_k7fb5")
+shader_parameter/rotating_angle = 11.218
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gf0hg"]
+shader = ExtResource("3_tqdct")
+shader_parameter/mouse_location = Vector2(-3.89108, -1.34367)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wo5b5"]
+shader = ExtResource("5_xxg37")
+shader_parameter/my_number = 3.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_blk63"]
+shader = ExtResource("8_pkf5n")
+shader_parameter/my_number = 32.0
+shader_parameter/my_info = ExtResource("2_x7rwy")
+
+[sub_resource type="Image" id="Image_cvk2w"]
+data = {
+"data": PackedByteArray(163, 0, 0, 255, 204, 0, 0, 255, 255, 0, 0, 255, 0, 0, 0, 255, 104, 0, 0, 255, 255, 0, 0, 255, 0, 0, 0, 0, 255, 0, 0, 255, 255, 0, 0, 255),
+"format": "RGBA8",
+"height": 3,
+"mipmaps": false,
+"width": 3
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_8a4kh"]
+image = SubResource("Image_cvk2w")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_260r4"]
+shader = ExtResource("9_4spyw")
+shader_parameter/my_number = 3.0
+shader_parameter/my_info = SubResource("ImageTexture_8a4kh")
+
+[node name="Test" type="Node"]
+
+[node name="Rect" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_be37t")
+position = Vector2(64, 64)
+texture = ExtResource("2_x7rwy")
+
+[node name="RotatingRect" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_pv0q1")
+position = Vector2(192, 320)
+texture = ExtResource("2_x7rwy")
+script = ExtResource("4_synnf")
+
+[node name="Mouse" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_gf0hg")
+position = Vector2(128, 0)
+texture = ExtResource("2_x7rwy")
+centered = false
+script = ExtResource("4_f5jhg")
+
+[node name="Rects" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_wo5b5")
+position = Vector2(448, 128)
+scale = Vector2(2, 2)
+texture = ExtResource("2_x7rwy")
+
+[node name="Rects2" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_blk63")
+position = Vector2(1008, 352)
+scale = Vector2(5, 5)
+texture = ExtResource("2_x7rwy")
+
+[node name="Rects3" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_260r4")
+position = Vector2(448, 448)
+scale = Vector2(2, 2)
+texture = ExtResource("2_x7rwy")
+script = ExtResource("10_fpdhq")
+
+[node name="Timer" type="Timer" parent="Rects3"]
+autostart = true
+
+[connection signal="timeout" from="Rects3/Timer" to="Rects3" method="_on_timer_timeout"]
