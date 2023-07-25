@@ -1,0 +1,2 @@
+# GodotInteractiveRects_Shader
+Shader version of GodotInteractiveRects project
